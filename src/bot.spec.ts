@@ -53,16 +53,23 @@ describe("Bot deployment",()=>{
 
 
       when(mockedTxEvent.filterFunction(CREATE_AGENT_FUNCTION, Deployment_Address)).thenReturn([instance(mockedCreateAgentEvent)]);
-
+const funcName= "createAgent"
       const findings = await handleTransaction(instance(mockedTxEvent), instance(mockedProvider));
 
       expect(findings).toStrictEqual([
         Finding.fromObject({
-          name: `Nethermind Forta BOT Created`,
-          description: "Bot has been deployed by the Nethermind team",
+          name: `Nethermind Forta BOT  ${funcName}`,
+          description: `${funcName}`,
           alertId:"FORTA-1",
           severity: FindingSeverity.Low,
           type:FindingType.Info,
+          metadata: {
+                        
+                      },
+                      source: {
+                        chains: [{ chainId }],
+                        transactions: [{ hash, chainId }],
+                      },
         })
       ]);
       verify(

@@ -35,7 +35,7 @@ let findingsCount = 0;
 
 export const handleTransaction: HandleTransaction = async (
   txEvent: TransactionEvent,
- 
+  provider: JsonRpcProvider,
 ) => {
   const findings: Finding[] = [];
 
@@ -55,19 +55,19 @@ export const handleTransaction: HandleTransaction = async (
     findings.push(
       Finding.fromObject({
         name: `Nethermind Forta BOT ${
-           funAgentName === "createAgent" ? "Created" : "Updated"
+           funAgentName == "createAgent" ? "Created" : "Updated"
          }`, 
-         description:funAgentName === "createAgent" ? "New Bot has been deployed by the Nethermind team" : "Bot has been updated by the Nethermind team",
-         alertId: funAgentName === "createAgent" ? "FORTA-1" : "FORTA-2", 
+         description:`${funAgentName == "createAgent" ? "New Bot has been deployed by the Nethermind team" : "Bot has been updated by the Nethermind team"}`,
+         alertId: `${funAgentName == "createAgent" ? "FORTA-1" : "FORTA-2"}`, 
          severity:FindingSeverity.Low, 
          type:FindingType.Info,
-        //  metadata:{
+         metadata:{
           
-        //  } ,
-          // source:{
-          //   chains: [{ chainId: txEvent.chainId }],
-          //   transactions: [{ hash: txEvent.hash, chainId: txEvent.chainId }],
-          // },
+         } ,
+          source:{
+            chains: [{ chainId: txEvent.chainId }],
+            transactions: [{ hash: txEvent.hash, chainId: txEvent.chainId }],
+          },
       })
     
     );
